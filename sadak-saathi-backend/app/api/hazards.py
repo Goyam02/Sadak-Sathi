@@ -6,7 +6,7 @@ from app.db.database import get_db
 router = APIRouter()
 
 @router.get("/hazards")
-async def get_hazards(lat: float, lon: float, radius: int = 500, db: AsyncSession = Depends(get_db)):
+def get_hazards(lat: float, lon: float, radius: int = 500, db = Depends(get_db)):
     query = text("""
     SELECT id, type, severity,
            ST_Y(location::geometry) AS lat,
@@ -19,10 +19,15 @@ async def get_hazards(lat: float, lon: float, radius: int = 500, db: AsyncSessio
     )
     """
     )
-    result = await db.execute(query, {
+    result = db.execute(query, {
         "lat": lat,
         "lon": lon,
         "radius": radius
     })
     hazards = result.fetchall()
-    return hazards
+    # Serialize rows to dicts for FastAPI JSON response
+    serialized = [
+        {"id": row.id, "type": row.type, "severity": row.severity, "lat": row.lat, "lon": row.lon}
+        for row in hazards
+    ]
+    return serialized
