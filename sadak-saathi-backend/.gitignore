@@ -1,0 +1,21 @@
+# Python venv
+venv/
+
+# Environment variables
+.env
+
+# __pycache__ and pyc
+__pycache__/
+*.pyc
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Docker artifacts
+*.pid
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
