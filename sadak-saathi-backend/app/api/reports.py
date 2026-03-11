@@ -2,17 +2,54 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.db.database import get_db
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 from app.services.scoring import calculate_confidence, calculate_severity
 
 router = APIRouter()
 
+from enum import Enum
+
+ALLOWED_HAZARD_TYPES = ["pothole", "speed_bump", "road_damage"]
+ALLOWED_SOURCES = ["human", "sensor", "camera", "app", "accelerometer"]
+
+class HazardType(str, Enum):
+    pothole = "pothole"
+    speed_bump = "speed_bump"
+    road_damage = "road_damage"
+
+class SourceType(str, Enum):
+    human = "human"
+    sensor = "sensor"
+    camera = "camera"
+    app = "app"
+    accelerometer = "accelerometer"
+
 class ReportRequest(BaseModel):
     lat: float
     lon: float
-    type: str
+    type: HazardType
     confidence: float
-    source: str
+    source: SourceType
+
+    @staticmethod
+    def validate_latlon(lat, lon):
+        if lat is None or lon is None:
+            raise ValueError("Latitude and Longitude are required.")
+        if not (-90.0 <= lat <= 90.0):
+            raise ValueError("Latitude must be between -90 and 90.")
+        if not (-180.0 <= lon <= 180.0):
+            raise ValueError("Longitude must be between -180 and 180.")
+
+    @root_validator(pre=True)
+    def validate_all(cls, values):
+        lat = values.get("lat")
+        lon = values.get("lon")
+        confidence = values.get("confidence")
+        cls.validate_latlon(lat, lon)
+        if confidence is not None and not (0 <= confidence <= 10):
+            raise ValueError("Confidence must be between 0 and 10.")
+        return values
+
 
 CLUSTER_RADIUS = 8  # meters
 
@@ -27,12 +64,14 @@ def create_report(data: ReportRequest, db = Depends(get_db)):
             ST_SetSRID(ST_MakePoint(:lon, :lat),4326)::geography,
             :radius
         )
+        AND type = :type
         LIMIT 1
     """)
     result = db.execute(find_query, {
         "lat": data.lat,
         "lon": data.lon,
-        "radius": CLUSTER_RADIUS
+        "radius": CLUSTER_RADIUS,
+        "type": data.type
     })
     hazard = result.fetchone()
     clustered = hazard is not None
@@ -124,10 +163,13 @@ def create_report(data: ReportRequest, db = Depends(get_db)):
 
     # Compose full response with updated info
     resp_confidence = new_conf if clustered else data.confidence
+    # Ensure new_conf is always bound
+    if clustered and 'new_conf' not in locals():
+        resp_confidence = data.confidence
     return {
         "hazard_id": hazard_id,
         "clustered": clustered,
-        "confidence": resp_confidence,
+        "confidence": float(resp_confidence),
         "severity": severity,
         "status": status
     }

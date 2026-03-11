@@ -4,9 +4,13 @@ SOURCE_WEIGHTS = {
     "human": 0.8
 }
 
+CONFIDENCE_MAX = 20.0  # cap confidence for all hazards
+
 def calculate_confidence(old_conf, report_conf, source):
     weight = SOURCE_WEIGHTS.get(source, 0.3)
-    return old_conf + (report_conf * weight)
+    base_conf = 0 if old_conf is None else old_conf
+    new_conf = base_conf + (report_conf * weight)
+    return min(new_conf, CONFIDENCE_MAX)
 
 
 def calculate_severity(confidence):
