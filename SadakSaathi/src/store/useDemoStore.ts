@@ -74,7 +74,7 @@ export const DEMO_MORNING_BRIEF = {
   newOvernightPotholes: 2,
   recommendedLeaveTime: '8:10 PM',
   alternateRoute:       'Alternate B — adds 5 min, 0 hazards',
-  rainForecast:         'Rain at 8 PM — wet road severity HIGH',
+  rainForecast:         'Rain at 8 AM — wet road severity HIGH',
   trafficAlert:         'Heavy traffic from 8:45 AM at Dhaula Kuan',
 };
 

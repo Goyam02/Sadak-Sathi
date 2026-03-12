@@ -36,7 +36,7 @@ export default function DetectionToggle() {
 
       <View style={styles.row}>
         <View style={styles.info}>
-          <Text style={styles.title}>Camera (Overshoot)</Text>
+          <Text style={styles.title}>Camera</Text>
           <Text style={styles.sub}>Visual pothole detection — mount required</Text>
         </View>
         <Switch

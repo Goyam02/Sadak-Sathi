@@ -28,6 +28,7 @@
     "react-native-maps": "1.26.20",
     "react-native-safe-area-context": "^5.7.0",
     "react-native-screens": "^4.24.0",
+    "react-native-webview": "^13.16.1",
     "rxjs": "^7.8.2",
     "zustand": "^5.0.11"
   },
