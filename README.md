@@ -111,7 +111,7 @@ sequenceDiagram
     B->>D: Store Report
     D->>B: Check Nearby Reports (5m)
     
-    alt >3 Reports
+    alt >10 Reports
         B->>D: Mark as Confirmed
         B->>B: Trigger Public Map Update
     end
