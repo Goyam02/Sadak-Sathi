@@ -1,38 +1,36 @@
-import Geolocation from '@react-native-community/geolocation';
+import * as Location from 'expo-location';
 import { useLocationStore } from '../store/useLocationStore';
 
 class LocationService {
-  private watchId: number | null = null;
+  private subscription: any = null;
 
-  start() {
-    if (this.watchId !== null) return;
+  async start() {
+    if (this.subscription) return;
 
-    Geolocation.requestAuthorization();
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.warn('[LocationService] Permission denied');
+      return;
+    }
 
-    this.watchId = Geolocation.watchPosition(
+    this.subscription = await Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        distanceInterval: 5,
+        timeInterval: 2000,
+      },
       position => {
         const { latitude, longitude, heading, speed } = position.coords;
         useLocationStore
           .getState()
           .setLocation(latitude, longitude, heading ?? undefined, speed ?? undefined);
       },
-      error => {
-        if (__DEV__) console.warn('[LocationService] error', error);
-      },
-      {
-        enableHighAccuracy: true,
-        distanceFilter: 5,       // update every 5 metres
-        interval: 2000,          // Android: every 2s
-        fastestInterval: 1000,
-      },
     );
   }
 
   stop() {
-    if (this.watchId !== null) {
-      Geolocation.clearWatch(this.watchId);
-      this.watchId = null;
-    }
+    this.subscription?.remove();
+    this.subscription = null;
   }
 }
 

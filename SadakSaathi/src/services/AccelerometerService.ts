@@ -1,5 +1,4 @@
-import { accelerometer, setUpdateIntervalForType, SensorTypes } from 'react-native-sensors';
-import { Subscription } from 'rxjs';
+import { Accelerometer } from 'expo-sensors';
 import { postReport } from '../api/reports';
 import { classifyImpact, impactToConfidence } from '../utils/impactClassifier';
 import { useLocationStore } from '../store/useLocationStore';
@@ -7,15 +6,14 @@ import { useDetectionStore } from '../store/useDetectionStore';
 import { IMPACT_DEBOUNCE_MS } from '../constants/thresholds';
 
 class AccelerometerService {
-  private subscription: Subscription | null = null;
+  private subscription: any = null;
   private lastImpactTime = 0;
 
   start() {
     if (this.subscription) return;
+    Accelerometer.setUpdateInterval(100);
 
-    setUpdateIntervalForType(SensorTypes.accelerometer, 100); // 10 Hz
-
-    this.subscription = accelerometer.subscribe(({ x, y, z }) => {
+    this.subscription = Accelerometer.addListener(({ x, y, z }) => {
       const magnitude = Math.sqrt(x * x + y * y + z * z);
       useDetectionStore.getState().setAccelMagnitude(magnitude);
 
@@ -23,7 +21,7 @@ class AccelerometerService {
       if (impact === 'none') return;
 
       const now = Date.now();
-      if (now - this.lastImpactTime < IMPACT_DEBOUNCE_MS) return; // debounce
+      if (now - this.lastImpactTime < IMPACT_DEBOUNCE_MS) return;
       this.lastImpactTime = now;
 
       useDetectionStore.getState().recordImpact();
@@ -32,7 +30,7 @@ class AccelerometerService {
   }
 
   stop() {
-    this.subscription?.unsubscribe();
+    this.subscription?.remove();
     this.subscription = null;
   }
 
@@ -40,16 +38,14 @@ class AccelerometerService {
     const { lat, lon } = useLocationStore.getState();
     if (!lat || !lon) return;
 
-    const confidence = impactToConfidence(impact);
     try {
       await postReport({
         lat,
         lon,
         type: 'pothole',
-        confidence,
+        confidence: impactToConfidence(impact),
         source: 'accelerometer',
       });
-      if (__DEV__) console.log(`[Accel] Reported ${impact} @ ${lat},${lon} mag=${magnitude.toFixed(2)}`);
     } catch (e) {
       if (__DEV__) console.warn('[Accel] Report failed', e);
     }

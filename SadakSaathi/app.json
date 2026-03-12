@@ -11,6 +11,9 @@
     },
     "android": {
       "package": "com.rachitgoyell.SadakSaathi"
-    }
+    },
+    "plugins": [
+      "expo-web-browser"
+    ]
   }
 }
