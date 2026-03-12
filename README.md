@@ -6,9 +6,11 @@
 
 ## Project Pitch Video
 
-[![Sadak Saathi Pitch](https://img.youtube.com/vi/gzIxVzgfq6c/0.jpg)](https://youtu.be/gzIxVzgfq6c)
-
-*Click to watch the full project presentation*
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=gzIxVzgfq6c">
+    <img src="https://img.youtube.com/vi/gzIxVzgfq6c/maxresdefault.jpg" alt="Sadak Saathi Pitch" style="width:100%;max-width:800px;">
+  </a>
+</div>
 
 ---
 
