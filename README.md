@@ -7,10 +7,10 @@
 ## App Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/home-page.png" width="200" alt="home-page" />
-  <img src="docs/screenshots/map-screen.png" width="200" alt="Community Map" />
-  <img src="docs/screenshots/hazard-detail.png" width="200" alt="Hazard list" />
-  <img src="docs/screenshots/camera-detection.png" width="200" alt="YOLO Camera Detection" />
+  <img src="screenshots/home-page.png" width="200" alt="home-page" />
+  <img src="screenshots/map-screen.png" width="200" alt="Community Map" />
+  <img src="screenshots/hazard-detail.png" width="200" alt="Hazard list" />
+  <img src="screenshots/camera-detection.png" width="200" alt="YOLO Camera Detection" />
 </p>
 
 ---
