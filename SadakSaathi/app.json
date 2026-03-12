@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "SadakSaathi",
+    "slug": "SadakSaathi",
+    "version": "1.0.0",
+    "scheme": "sadaksaathi",
+    "extra": {
+      "eas": {
+        "projectId": "411ef3c7-1109-4e4e-92fc-8efbb1e6a5f6"
+      }
+    },
+    "android": {
+      "package": "com.rachitgoyell.SadakSaathi"
+    },
+    "plugins": [
+      "expo-web-browser"
+    ]
+  }
+}
