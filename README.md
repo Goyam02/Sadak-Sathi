@@ -99,6 +99,59 @@ Every pothole links to contractor + economic damage calculation.
 - Alert includes: distance, severity, lane position, recommended action
 - Works over any navigation app (Google Maps, etc.)
 
+```mermaid
+sequenceDiagram
+    participant S as Sensors(50Hz)
+    participant L as LSTM Model
+    participant B as Backend
+    participant D as Database
+    
+    S->>L: Stream Accelerometer Data
+    L->>B: Impact Detected (S1/S2/S3)
+    B->>D: Store Report
+    D->>B: Check Nearby Reports (5m)
+    
+    alt >3 Reports
+        B->>D: Mark as Confirmed
+        B->>B: Trigger Public Map Update
+    end
+```
+
+### Detection & Confirmation Flow
+
+```mermaid
+graph LR
+    Cam[Camera Frame] -->|RGB| YOLO[YOLOv8-nano]
+    YOLO --> Detect[Bounding Box + Class]
+    Detect --> Check{Water Filled > 91%?}
+    Check -->|Yes| Alert[Immediate Alert]
+    Check -->|No| Log[Log Observation]
+    
+    style Cam fill:#f9f,stroke:#333
+    style YOLO fill:#bbf,stroke:#333
+    style Alert fill:#f96,stroke:#333
+```
+
+### Safe Route Navigation
+
+**Routing Algorithm**
+- Route scoring combines road condition + live traffic
+- Prioritizes roads with fewer known hazards
+- Shows "Fastest" vs "Safe" options
+
+```mermaid
+graph LR
+    User[Navigation Request] --> Query[Query Hazards + Traffic]
+    Query --> Score[Calculate Safety Score]
+    Score --> Result{Compare Routes}
+    Result -->|Fastest| Fast[Standard Route]
+    Result -->|Safest| Safe[Pothole-Free Route]
+    
+    style User fill:#f9f,stroke:#333
+    style Score fill:#bbf,stroke:#333
+    style Safe fill:#bfb,stroke:#333
+```
+
 ### Accountability Engine
 
 **Contractor Matching**
@@ -122,6 +175,19 @@ Every pothole links to contractor + economic damage calculation.
 - Active contract values and warranty breach counts
 - Shareable links with contractor name, damage amount, warranty status
 - One-tap sharing to WhatsApp/social media
+
+```mermaid
+graph TD
+    Hazard[Confirmed Hazard] --> Match[Match Contractor via GIS]
+    Match --> Warranty{In Warranty Period?}
+    Warranty -->|Yes| Calc[Calculate Economic Damage]
+    Calc --> Dashboard[Public Dashboard]
+    Dashboard --> Share[Generate Share Link]
+    
+    style Hazard fill:#f9f,stroke:#333
+    style Calc fill:#bbf,stroke:#333
+    style Share fill:#f96,stroke:#333
+```
 
 ---
 
@@ -174,55 +240,14 @@ graph TD
     API -->|Read/Write| PG
     API -->|Cache Hot Data| Redis
     PG -->|Contract Data| Engine
-```
-
-### Data Flow
-
-**Detection & Confirmation:**
-```mermaid
-sequenceDiagram
-    participant S as Sensors(50Hz)
-    participant L as LSTM Model
-    participant B as Backend
-    participant D as Database
     
-    S->>L: Stream Accelerometer Data
-    L->>B: Impact Detected (S1/S2/S3)
-    B->>D: Store Report
-    D->>B: Check Nearby Reports (5m)
-    
-    alt >3 Reports
-        B->>D: Mark as Confirmed
-        B->>B: Trigger Public Map Update
-    end
-```
-
-**YOLO Camera Detection:**
-```mermaid
-graph LR
-    Cam[Camera Frame] --> YOLO[YOLOv8-nano]
-    YOLO --> Detect[Bounding Box + Class]
-    Detect --> Check{Water Filled > 91%?}
-    Check -->|Yes| Alert[Immediate Alert]
-    Check -->|No| Log[Log Observation]
-```
-
-**Routing Logic:**
-```mermaid
-graph LR
-    User[Origin + Dest] --> Query[Query Hazards + Traffic]
-    Query --> Score[Score Routes]
-    Score --> Result[Fastest vs Safe Route]
-```
-
-**Accountability Engine:**
-```mermaid
-graph TD
-    Hazard[Confirmed Hazard] --> Match[Match Contractor via GIS]
-    Match --> Warranty{In Warranty Period?}
-    Warranty -->|Yes| Calc[Calculate Economic Damage]
-    Calc --> Dashboard[Public Dashboard]
-    Dashboard --> Share[Generate Share Link]
+    style RN fill:#f9f,stroke:#333
+    style LSTM fill:#f9f,stroke:#333
+    style YOLO fill:#f9f,stroke:#333
+    style API fill:#bbf,stroke:#333
+    style Engine fill:#bbf,stroke:#333
+    style PG fill:#f96,stroke:#333
+    style Redis fill:#f96,stroke:#333
 ```
 
 ---
