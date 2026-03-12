@@ -50,7 +50,7 @@
 
 | Impact | Numbers |
 |--------|---------|
-| Two-wheeler deaths (potholes, 5 years) | **50** |
+| Two-wheeler deaths (potholes, 5 years) | **9438 deaths in India** |
 | Annual vehicle damage | **₹3,000 Cr** |
 | Annual traffic delay cost | **₹450 Cr** |
 
@@ -85,7 +85,7 @@ Delhi has **3 lakh delivery riders** covering every road multiple times daily. T
 - 94% confidence on water-filled detection
 
 **Confirmation Engine**
-- 3+ accelerometer reports → confirmed pothole
+- 10+ accelerometer reports → confirmed pothole
 - YOLO + accelerometer agreement → high confidence
 - Water detection >91% → immediate alert
 
