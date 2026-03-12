@@ -126,10 +126,6 @@ graph LR
     Detect --> Check{Water Filled > 91%?}
     Check -->|Yes| Alert[Immediate Alert]
     Check -->|No| Log[Log Observation]
-    
-    style Cam fill:#f9f,stroke:#333
-    style YOLO fill:#bbf,stroke:#333
-    style Alert fill:#f96,stroke:#333
 ```
 
 ### Safe Route Navigation
@@ -146,10 +142,6 @@ graph LR
     Score --> Result{Compare Routes}
     Result -->|Fastest| Fast[Standard Route]
     Result -->|Safest| Safe[Pothole-Free Route]
-    
-    style User fill:#f9f,stroke:#333
-    style Score fill:#bbf,stroke:#333
-    style Safe fill:#bfb,stroke:#333
 ```
 
 ### Accountability Engine
@@ -183,10 +175,6 @@ graph TD
     Warranty -->|Yes| Calc[Calculate Economic Damage]
     Calc --> Dashboard[Public Dashboard]
     Dashboard --> Share[Generate Share Link]
-    
-    style Hazard fill:#f9f,stroke:#333
-    style Calc fill:#bbf,stroke:#333
-    style Share fill:#f96,stroke:#333
 ```
 
 ---
@@ -240,14 +228,6 @@ graph TD
     API -->|Read/Write| PG
     API -->|Cache Hot Data| Redis
     PG -->|Contract Data| Engine
-    
-    style RN fill:#f9f,stroke:#333
-    style LSTM fill:#f9f,stroke:#333
-    style YOLO fill:#f9f,stroke:#333
-    style API fill:#bbf,stroke:#333
-    style Engine fill:#bbf,stroke:#333
-    style PG fill:#f96,stroke:#333
-    style Redis fill:#f96,stroke:#333
 ```
 
 ---
