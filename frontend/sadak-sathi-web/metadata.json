@@ -1,0 +1,7 @@
+{
+  "name": "Remix: Sadak Saathi web",
+  "description": "A mobile-first layout featuring a smooth, expanding blob animation.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
