@@ -6,11 +6,7 @@
 
 ## Demo Video
 
-<p align="center">
-  <video src="https://github.com/Goyam02/Sadak-Sathi/releases/download/v1.0.0/demo.mp4" controls width="80%">
-    Your browser does not support the video tag.
-  </video>
-</p>
+**Download and watch:** [demo.mp4](https://github.com/Goyam02/Sadak-Sathi/releases/download/v1.0.0/demo.mp4)
 
 ---
 
@@ -37,12 +33,19 @@
 
 *Detailed view of a pothole, including contractor info and economic damage*
 
-### YOLO Camera Detection
+### Web Dashboard - Home
 <p align="center">
-  <img src="screenshots/camera-detection.png" width="300" alt="Camera Detection" />
+  <img src="screenshots/web-homescreen.jpeg" width="600" alt="Web Home" />
 </p>
 
-*Real-time camera detection of potholes using YOLOv8-nano*
+*Public-facing dashboard showing hazard overview and live statistics*
+
+### Web Dashboard - Contractor Details
+<p align="center">
+  <img src="screenshots/web-dashboard.jpeg" width="600" alt="Web Dashboard" />
+</p>
+
+*Contractor accountability page with performance scores and economic damage tracking*
 
 ---
 
@@ -511,7 +514,8 @@ SadakSaathi/
 │   ├── home-page.png
 │   ├── map-screen.png
 │   ├── hazard-detail.png
-│   └── camera-detection.png
+│   ├── web-homescreen.jpeg
+│   └── web-dashboard.jpeg
 │
 └── docs/                       # Detailed documentation
     ├── ARCHITECTURE.md
