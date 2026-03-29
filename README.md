@@ -6,9 +6,11 @@
 
 ## Demo Video
 
-https://github.com/user-attachments/assets/placeholder-demo
-
-*Watch the demo video in `videos/demo.mp4`*
+<p align="center">
+  <video src="https://github.com/Goyam02/Sadak-Sathi/releases/download/v1.0.0/demo.mp4" controls width="80%">
+    Your browser does not support the video tag.
+  </video>
+</p>
 
 ---
 
