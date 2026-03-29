@@ -6,11 +6,7 @@
 
 ## Demo Video
 
-<p align="center">
-  <video src="https://github.com/Goyam02/Sadak-Sathi/releases/download/v1.0.0/demo.mp4" controls width="80%">
-    Your browser does not support the video tag.
-  </video>
-</p>
+https://github.com/user-attachments/assets/4df054da-62da-42d7-aece-a58312a09078
 
 ---
 
@@ -25,6 +21,9 @@
 
 ### Community Map
 <p align="center">
+
+
+
   <img src="screenshots/map-screen.png" width="300" alt="Community Map" />
 </p>
 
